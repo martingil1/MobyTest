@@ -24,7 +24,7 @@ create table `candidatos` (
                               id int auto_increment,
                               nombre varchar(50),
                               apellido varchar(50),
-                              tipo_doc varchar(3),
+                              tipo varchar(3),
                               dni varchar(50) not null unique,
                               nacimiento date,
                               constraint pk_candidatos primary key (id)
