@@ -84,9 +84,9 @@ public class CandidatoServiceTest {
                 .fechaNacimiento(LocalDate.of(1997, 8, 30))
                 .build();
 
-        assertEquals(candidato, candidatoService.construirObjeto(candidatoDTO));
-        verify(candidatoRepository,times(1)).save(candidato);
-
+        when(candidatoRepository.save(candidato)).thenReturn(candidato);
+        when(candidatoService.construirObjeto(candidatoDTO)).thenReturn(candidato);
+        assertEquals(candidato,candidatoService.construirObjeto(candidatoDTO));
     }
 
     @Test
@@ -137,8 +137,6 @@ public class CandidatoServiceTest {
 
         when(candidatoRepository.findByDni("12345678")).thenReturn(Optional.ofNullable(candidato));
         when(candidatoService.construirObjeto(candidatoDTO)).thenReturn(candidato);
-        //verify(candidatoRepository,times(1)).delete(candidato);
-        //verify(candidatoRepository,times(1)).save(candidato);
         assertEquals(candidatoResponse, candidatoService.modificar(candidatoDTO,"12345678"));
 
     }
@@ -159,7 +157,6 @@ public class CandidatoServiceTest {
                 .apellido("Perez")
                 .build();
         when(candidatoRepository.findByDni("12345678")).thenReturn(Optional.ofNullable(candidato));
-        when(candidatoService.mostrar("12345678")).thenReturn(candidatoResponse);
         assertEquals(candidatoResponse, candidatoService.mostrar("12345678"));
 
     }

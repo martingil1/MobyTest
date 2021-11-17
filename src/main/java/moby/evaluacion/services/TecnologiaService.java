@@ -1,5 +1,6 @@
 package moby.evaluacion.services;
 
+import lombok.RequiredArgsConstructor;
 import moby.evaluacion.exceptions.TecnologiaNotFoundException;
 import moby.evaluacion.models.dtos.TecnologiaDTO;
 import moby.evaluacion.models.responses.TecnologiaResponse;
@@ -9,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class TecnologiaService {
 
-    @Autowired
-    TecnologiaRepository tecnologiaRepository;
+    private final TecnologiaRepository tecnologiaRepository;
 
     public TecnologiaResponse crear(TecnologiaDTO tecnologiaDTO) {
 
@@ -39,10 +40,10 @@ public class TecnologiaService {
         Tecnologia tecnologia = tecnologiaRepository.findByNombreAndVersion(nombre, version)
                 .orElseThrow(TecnologiaNotFoundException::new);
 
-        Tecnologia tecnologiaModificada = tecnologiaRepository.save(Tecnologia.builder()
+        Tecnologia tecnologiaModificada = Tecnologia.builder()
                 .nombre(tecnologiaDTO.getNombre())
                 .version(tecnologiaDTO.getVersion())
-                .build());
+                .build();
 
         tecnologiaRepository.delete(tecnologia);
         tecnologiaRepository.save(tecnologiaModificada);
